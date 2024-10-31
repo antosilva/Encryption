@@ -7,6 +7,8 @@ public static class AesSamples
 {
     public static void Run()
     {
+        Console.WriteLine("AES sample ====================================================================");
+
         string helloWorld = "Hello, World!";
 
         using Aes aes = Aes.Create();
@@ -24,6 +26,7 @@ public static class AesSamples
         Console.WriteLine($"AES key in Base64: {Convert.ToBase64String(aes.Key)}");
         Console.WriteLine($"AES IV in Base64: {Convert.ToBase64String(aes.IV)}");
 
+        Console.WriteLine("End of AES sample ====================================================================");
         Console.ReadKey();
     }
 
