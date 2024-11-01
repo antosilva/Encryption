@@ -9,5 +9,6 @@ public static class Program
     {
         AesSamples.Run();
         RsaSamples.Run();
+        XorSamples.Run();
     }
 }
