@@ -46,8 +46,8 @@ namespace Samples
             Console.WriteLine("Private key in PEM:\n" + privateKeyPem);
 
             // Now import PEM formats and decrypt again to see if we have the original plain text.
-            byte[] importPublicKeyBytes = Convert.FromBase64String(publicKeyPem.Replace("-----BEGIN PUBLIC KEY-----", "").Replace("-----END PUBLIC KEY-----", "").Replace("\n", ""));
-            byte[] importPrivateKeyBytes = Convert.FromBase64String(privateKeyPem.Replace("-----BEGIN PRIVATE KEY-----", "").Replace("-----END PRIVATE KEY-----", "").Replace("\n", ""));
+            byte[] importPublicKeyBytes = Convert.FromBase64String(ExtractBase64KeyFromPEM(publicKeyPem));
+            byte[] importPrivateKeyBytes = Convert.FromBase64String(ExtractBase64KeyFromPEM(privateKeyPem));
 
             using RSACryptoServiceProvider rsa2 = new RSACryptoServiceProvider();
 
@@ -61,6 +61,15 @@ namespace Samples
 
             Console.WriteLine("End of RSA sample ====================================================================");
             Console.ReadKey();
+        }
+
+        private static string ExtractBase64KeyFromPEM(string pem)
+        {
+            // Split by end-of-line.
+            var lines = pem.Split(new[] { '\n', '\r' }, StringSplitOptions.RemoveEmptyEntries);
+
+            // Take all but the first (BEGIN ... KEY) and last (END ...KEY) lines.
+            return string.Join("", lines[1..^1]);
         }
 
         public static byte[] EncryptString(string plainText, RSAParameters publicKey)
